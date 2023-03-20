@@ -1,12 +1,12 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* l10n_eu_oss
+#	* l10n_eu_oss
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0\n"
+"Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: \n"
+"Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -66,7 +66,6 @@ msgid "Created on"
 msgstr ""
 
 #. module: l10n_eu_oss
-#: model:ir.model.fields,field_description:l10n_eu_oss.field_account_tax__display_name
 #: model:ir.model.fields,field_description:l10n_eu_oss.field_l10n_eu_oss_wizard__display_name
 #: model:ir.model.fields,field_description:l10n_eu_oss.field_oss_tax_rate__display_name
 msgid "Display Name"
@@ -88,20 +87,18 @@ msgid "General Tax"
 msgstr ""
 
 #. module: l10n_eu_oss
-#: model:ir.model.fields,field_description:l10n_eu_oss.field_account_tax__id
 #: model:ir.model.fields,field_description:l10n_eu_oss.field_l10n_eu_oss_wizard__id
 #: model:ir.model.fields,field_description:l10n_eu_oss.field_oss_tax_rate__id
 msgid "ID"
 msgstr ""
 
 #. module: l10n_eu_oss
-#: code:addons/l10n_eu_oss/wizard/l10n_eu_oss_wizard.py:0
+#: code:addons/l10n_eu_oss/wizard/l10n_eu_oss_wizard.py:120
 #, python-format
 msgid "Intra-EU B2C in %(country_name)s"
 msgstr ""
 
 #. module: l10n_eu_oss
-#: model:ir.model.fields,field_description:l10n_eu_oss.field_account_tax____last_update
 #: model:ir.model.fields,field_description:l10n_eu_oss.field_l10n_eu_oss_wizard____last_update
 #: model:ir.model.fields,field_description:l10n_eu_oss.field_oss_tax_rate____last_update
 msgid "Last Modified on"
@@ -120,13 +117,7 @@ msgid "Last Updated on"
 msgstr ""
 
 #. module: l10n_eu_oss
-#: code:addons/l10n_eu_oss/wizard/l10n_eu_oss_wizard.py:0
-#, python-format
-msgid "OSS VAT %s%%"
-msgstr ""
-
-#. module: l10n_eu_oss
-#: code:addons/l10n_eu_oss/wizard/l10n_eu_oss_wizard.py:0
+#: code:addons/l10n_eu_oss/wizard/l10n_eu_oss_wizard.py:95
 #, python-format
 msgid "OSS for EU to %(country_name)s: %(rate)s"
 msgstr ""
@@ -183,21 +174,19 @@ msgid "Tax"
 msgstr ""
 
 #. module: l10n_eu_oss
-#: model:ir.model.constraint,message:l10n_eu_oss.constraint_oss_tax_rate_oss_country_id_uniq
+#: sql_constraint:oss.tax.rate:0
 msgid "The Country must be unique !"
 msgstr ""
 
 #. module: l10n_eu_oss
-#: code:addons/l10n_eu_oss/wizard/l10n_eu_oss_wizard.py:0
+#: code:addons/l10n_eu_oss/wizard/l10n_eu_oss_wizard.py:19
 #, python-format
-msgid ""
-"The Europe country group cannot be found. Please update the base module."
+msgid "The Europe country group cannot be found. Please update the base module."
 msgstr ""
 
 #. module: l10n_eu_oss
 #: model_terms:ir.ui.view,arch_db:l10n_eu_oss.l10n_eu_oss_wizard_form_view
-msgid ""
-"You should only choose the taxes of the current accounting plan,\n"
+msgid "You should only choose the taxes of the current accounting plan,\n"
 "                if you don't have the type of tax, do not configure it."
 msgstr ""
 
@@ -210,3 +199,4 @@ msgstr ""
 #: model:ir.model,name:l10n_eu_oss.model_oss_tax_rate
 msgid "oss tax rate"
 msgstr ""
+

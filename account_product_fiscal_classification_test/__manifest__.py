@@ -4,18 +4,20 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 {
-    "name": "Account Product - Fiscal Classification / Testing",
-    "summary": "tests account_product_fiscal_classification module",
-    "version": "14.0.1.0.0",
-    "category": "Accounting",
-    "author": "Akretion,GRAP,La Louve,Odoo Community Association (OCA)",
-    "maintainers": ["legalsylvain"],
-    "website": "https://github.com/OCA/account-fiscal-rule",
-    "license": "AGPL-3",
-    "depends": ["account_product_fiscal_classification", "l10n_generic_coa"],
-    "demo": [
-        "demo/account_tax_template.xml",
-        "demo/account_product_fiscal_classification_template.xml",
+    'name': 'Account Product - Fiscal Classification / Testing',
+    'summary': 'tests account_product_fiscal_classification module',
+    'version': '12.0.1.1.0',
+    'category': 'Accounting',
+    'author': 'Akretion,GRAP,La Louve,Odoo Community Association (OCA)',
+    'website': 'https://github.com/OCA/account-fiscal-rule',
+    'license': 'AGPL-3',
+    'depends': [
+        'account_product_fiscal_classification',
+        'l10n_generic_coa',
     ],
-    "installable": True,
+    'demo': [
+        'demo/account_tax_template.xml',
+        'demo/account_product_fiscal_classification_template.xml',
+    ],
+    'installable': True,
 }

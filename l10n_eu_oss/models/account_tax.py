@@ -7,7 +7,4 @@ from odoo import fields, models
 class AccountTax(models.Model):
     _inherit = "account.tax"
 
-    oss_country_id = fields.Many2one(
-        comodel_name="res.country",
-        string="Oss Country",
-    )
+    oss_country_id = fields.Many2one(comodel_name="res.country", string="Oss Country",)

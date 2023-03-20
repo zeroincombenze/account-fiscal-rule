@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo import _, fields, models
-from odoo.exceptions import ValidationError
+from odoo.exceptions import Warning
 
 
 class L10nEuOssWizard(models.TransientModel):
@@ -10,12 +10,12 @@ class L10nEuOssWizard(models.TransientModel):
     _description = "l10n.eu.oss.wizard"
 
     def _get_default_company_id(self):
-        return self.env.company.id
+        return self.env.user.company_id.id
 
     def _get_eu_res_country_group(self):
         eu_group = self.env.ref("base.europe", raise_if_not_found=False)
         if not eu_group:
-            raise ValidationError(
+            raise Warning(
                 _(
                     "The Europe country group cannot be found. "
                     "Please update the base module."
@@ -82,56 +82,27 @@ class L10nEuOssWizard(models.TransientModel):
     general_tax = fields.Many2one(
         comodel_name="account.tax", string="General Tax", required=True
     )
-    reduced_tax = fields.Many2one(
-        comodel_name="account.tax",
-        string="Reduced Tax",
-    )
+    reduced_tax = fields.Many2one(comodel_name="account.tax", string="Reduced Tax",)
     superreduced_tax = fields.Many2one(
-        comodel_name="account.tax",
-        string="Super Reduced Tax",
+        comodel_name="account.tax", string="Super Reduced Tax",
     )
     second_superreduced_tax = fields.Many2one(
         comodel_name="account.tax", string="Second Super Reduced Tax"
     )
 
-    def _prepare_tax_group_vals(self, rate):
-        return {"name": _("OSS VAT %s%%") % rate}
-
-    def _prepare_repartition_line_vals(self, original_rep_lines):
-        return [
-            (
-                0,
-                0,
-                {
-                    "factor_percent": line.factor_percent,
-                    "repartition_type": line.repartition_type,
-                    "account_id": line.repartition_type == "tax"
-                    and line.account_id.id
-                    or None,
-                    "company_id": line.company_id.id,
-                    "sequence": line.sequence,
-                },
-            )
-            for line in original_rep_lines
-        ]
-
-    def _prepare_tax_vals(self, country_id, tax_id, rate, tax_group):
+    def _prepare_tax_vals(self, country_id, tax_id, rate):
         return {
             "name": _("OSS for EU to %(country_name)s: %(rate)s")
             % {"country_name": country_id.name, "rate": rate},
             "amount": rate,
-            "invoice_repartition_line_ids": self._prepare_repartition_line_vals(
-                tax_id.invoice_repartition_line_ids
-            ),
-            "refund_repartition_line_ids": self._prepare_repartition_line_vals(
-                tax_id.refund_repartition_line_ids
-            ),
+            "amount_type": tax_id.amount_type,
+            "account_id": tax_id.account_id.id,
+            "refund_account_id": tax_id.refund_account_id.id,
             "type_tax_use": "sale",
             "description": "EU-OSS-VAT-{}-{}".format(country_id.code, rate),
             "oss_country_id": country_id.id,
             "company_id": self.company_id.id,
             "price_include": self.price_include_tax,
-            "tax_group_id": tax_group.id,
             "sequence": 1000,
         }
 
@@ -169,7 +140,6 @@ class L10nEuOssWizard(models.TransientModel):
     def generate_eu_oss_taxes(self):
         oss_rate = self.env["oss.tax.rate"]
         account_tax = self.env["account.tax"]
-        account_tax_group = self.env["account.tax.group"]
         selected_taxes = []
         fpos_obj = self.env["account.fiscal.position"]
         # Get the taxes configured in the wizard
@@ -203,16 +173,8 @@ class L10nEuOssWizard(models.TransientModel):
                         limit=1,
                     )
                     if not tax_dest_id:
-                        tax_group = account_tax_group.search(
-                            [("name", "=", self._prepare_tax_group_vals(rate)["name"])],
-                            limit=1,
-                        )
-                        if not tax_group:
-                            tax_group = account_tax_group.create(
-                                self._prepare_tax_group_vals(rate)
-                            )
                         tax_dest_id = account_tax.create(
-                            self._prepare_tax_vals(country, tax, rate, tax_group)
+                            self._prepare_tax_vals(country, tax, rate)
                         )
                 taxes_data.append({"tax_src_id": tax.id, "tax_dest_id": tax_dest_id.id})
                 last_rate = rate
